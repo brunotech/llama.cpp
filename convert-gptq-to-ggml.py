@@ -21,8 +21,11 @@ dir_out = sys.argv[3]
 model = torch.load(fname_model, map_location="cpu")
 
 n_vocab, n_embd = model['model.embed_tokens.weight'].shape
-n_layer = 1 + max(int(m.group(1)) for name in model
-                  if (m := re.match(r'model\.layers\.([0-9]+)', name)))
+n_layer = 1 + max(
+    int(m[1])
+    for name in model
+    if (m := re.match(r'model\.layers\.([0-9]+)', name))
+)
 
 # hardcoded:
 n_mult = 256
